@@ -10,7 +10,7 @@ def index():
     mytable = mydb.rb
     result = mytable.find_one({"name": "lz"})
     print(result)
-    return render_template('index.html', name=result["name"])
+    return render_template('index.html', name=result["name"],sex=result["sex"],age=result["age"])
 
 if __name__ == '__main__':
     app.run(debug=True)
