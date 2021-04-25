@@ -1,20 +1,16 @@
-#! /usr/bin/env python
-# -*- coding: utf-8 -*-
-from flask import Flask
-from flask import render_template
-import pymongo
-app = Flask(__name__)
+from flask import Flask, render_template
+from pymongo import MongoClient
 
-def get_mongo():
-    myclient = pymongo.MongoClient('mongodb://localhost:27017')  # 填入mongodb的地址
-    mydb = myclient['rb']  # 填入数据库名字
-    mycol = mydb['rb']  # 填入集合名字
-    for x in mycol.find(): #取数
-        print(x)
+mydb = MongoClient('mongodb://localhost:27017').rb
+
+app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return render_template('index.html',x=x) #插入web中的表格
+    mytable = mydb.rb
+    result = mytable.find_one({"name": "lz"})
+    print(result)
+    return render_template('index.html', name=result["name"])
 
 if __name__ == '__main__':
     app.run(debug=True)
